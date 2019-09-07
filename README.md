@@ -1,17 +1,156 @@
-# NLP Cheat Sheet, Python, spacy, Nomenclature, Starter Kit
+
+# NLP Cheat Sheet - Python - Starter Kit - Nomenclature
 
 
 Demo: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/janlukasschroeder/nlp-cheat-sheet-python/master?filepath=NLP%2BCheat%2BSheet.ipynb)
 
 Stack
+- Python 3.6 (only! Run in venv if necessary)
 - spacy
-- Python3
+- lexnlp
 
-Installation:
+### Installation:
+spacy
 ```shell
 pip install spacy
-python -m spacy download en_core_web_lg
+python -m spacy download en 
+# python -m spacy download en_core_web_lg
 ```
+LexNLP ([installation guide here](https://github.com/LexPredict/lexpredict-contraxsuite/blob/master/documentation/Installation%20and%20Configuration/Installation%20and%20Configuration%20Guide.pdf))
+```shell
+pip install https://github.com/LexPredict/lexpredict-lexnlp/archive/master.zip
+python # to open REPL console
+>>> import nltk
+>>> nltk.download() # download all packages
+```
+
+#### Popular frameworks:
+- [GPT-2](https://openai.com/blog/better-language-models/) - generate fake news, text summaries
+- BERT
+- XLnet
+- [ERNIE](https://github.com/PaddlePaddle/ERNIE/)
+- [Holmes](https://github.com/msg-systems/holmes-extractor#the-basic-idea): document classification, search in documents
+
+# Datasets
+
+- [OntoNotes 5](https://github.com/ontonotes/conll-formatted-ontonotes-5.0) - corpus comprising various genres of text (news, conversational telephone speech, weblogs, usenet newsgroups, broadcast, talk shows) in three languages (English, Chinese, and Arabic) with structural information (syntax and predicate argument structure) and shallow semantics (word sense linked to an ontology and coreference).
+- [wiki_en_tfidf.mm in gensim](https://radimrehurek.com/gensim/wiki.html#latent-semantic-analysis) 3.9M documents, 100K features (distinct tokens) and 0.76G non-zero entries in the sparse TF-IDF matrix. The Wikipedia corpus contains about 2.24 billion tokens in total.
+- [GPT-2 Dataset](https://github.com/openai/gpt-2-output-dataset)
+- [All the news, Kaggle, 143K articles](https://www.kaggle.com/snapcrack/all-the-news)
+- [Daily news for stock market prediction](https://www.kaggle.com/aaron7sun/stocknews)
+
+## CountVectorizer 
+- Convert a collection of text documents to a matrix of token counts
+- [skikitLearn](https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.CountVectorizer.html)
+
+# Demos
+
+- [Stanford CoreNLP](http://corenlp.run/)
+- [Stanford NER](http://nlp.stanford.edu:8080/ner/process)
+
+# nltk (Python lib)
+
+- similar to spacy
+- supports more models and packages than spacy
+- simply GUI model download `nltk.download()`
+
+# gensim (Python lib)
+
+- topic modelling for humans
+- loads a corpus
+- calcs similarities between query and indexed documents
+- SparseMatrixSimilarity
+- Latent Semantic Analysis
+
+https://radimrehurek.com/gensim/
+
+# lexnlp (Python lib)
+
+- Information retrieval and extraction for real, unstructured legal text
+- doesn't work; seemed to be excellent for legal + financial docs
+- docs aren't very good
+
+https://github.com/LexPredict/lexpredict-lexnlp
+
+## Word embeddings (=word vectors)
+
+- Word embeddings are vector representation of words. 
+- Sentence: Word Embeddings are Word converted into numbers.
+- A word in this sentence may be “Embeddings” or “numbers ” etc.
+- A dictionary may be the list of all unique words in the sentence, eg [‘Word’,’Embeddings’,’are’,’Converted’,’into’,’numbers’]
+- A vector representation of a word may be a one-hot encoded vector where 1 stands for the position where the word exists and 0 everywhere else. 
+
+### Example
+
+- numbers = [0,0,0,0,0,1] 
+- converted = [0,0,0,1,0,0]
+
+** Either use pre-trained word vectors or train our own** 
+
+#### Pre-trained word embeddings:
+- Word2Vec (Google, 2013), uses Skip Gram and CBOW
+- [On Google News trained (1.5GB)](https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit) - vocabulary of 3 million words trained on around 100 billion words from the google news dataset
+- GloVe (Stanford)
+- [Stanford Named Entity Recognizer (NER)](https://nlp.stanford.edu/software/CRF-NER.shtml)
+- [LexPredict: pre-trained word embedding models for legal or regulatory text](https://github.com/LexPredict/lexpredict-lexnlp)
+- [LexNLP legal models](https://github.com/LexPredict/lexpredict-legal-dictionary) - US GAAP, finaical common terms, US federal regulators, common law
+
+#### Create word vectors yourself
+
+```python
+import gensim
+word2vev_model = gensim.models.word2vec.Word2Vec(sentence_list)
+```
+
+https://www.analyticsvidhya.com/blog/2017/06/word-embeddings-count-word2veec/
+
+## 1. Frequency based word embeddings
+
+### Count Vector (= Document Term Matrix)
+
+![img](https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/06/04164920/count-vector.png)
+
+### TF-IDF
+
+Term Frequency - Inverse Document Frequency
+
+### Co-Occurrence Vector
+
+
+## 2. Prediction based word embeddings
+
+Using Neural Networks
+
+### CBOW (Continuous Bag of words)
+
+![cbow](https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/06/04205949/cbow1.png)
+
+### Skip Gram
+
+Skip – gram follows the same topology as of CBOW. It just flips CBOW’s architecture on its head. The aim of skip-gram is to predict the context given a word
+
+## Cosine Similarity
+
+Compute cosine similarity between samples in X and Y.
+
+
+## Linear Kernel
+
+Compute the linear kernel between X and Y.
+
+
+
+https://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise.linear_kernel.html#sklearn.metrics.pairwise.linear_kernel
+
+## Bag of Words
+
+
+```python
+# John likes to watch movies. Mary likes movies too.
+BoW1 = {"John":1,"likes":2,"to":1,"watch":1,"movies":2,"Mary":1,"too":1};
+```
+
+# spacy
 
 
 ```python
@@ -21,9 +160,9 @@ import spacy
 
 ```python
 # Import dataset
-nlp = spacy.load("en_core_web_lg")
-# Import small dataset. Results are less accurate.
-# nlp = spacy.load("en_core_web_sm")
+nlp = spacy.load("en")
+# Import large dataset. Needs to be downloaded first.
+# nlp = spacy.load("en_core_web_lg")
 ```
 
 # Tokenization
@@ -42,6 +181,33 @@ doc = nlp("Larry Page founded Google in early 1990.")
     ['Larry', 'Page', 'founded', 'Google', 'in', 'early', '1990', '.']
 
 
+
+## BILUO tagging
+
+ToDo: get list of labels, eg I, B, O
+
+
+```python
+[(token, token.ent_iob_, token.ent_type_) for token in doc]
+```
+
+
+
+
+    [(Larry, 'B', 'PERSON'),
+     (Page, 'I', 'PERSON'),
+     (founded, 'O', ''),
+     (Google, 'B', 'ORG'),
+     (in, 'O', ''),
+     (early, 'B', 'DATE'),
+     (1990, 'I', 'DATE'),
+     (., 'O', '')]
+
+
+
+# Stemming
+
+ToDo
 
 # Lemmatization
 
@@ -198,6 +364,37 @@ doc = nlp("I have a red car")
 
 Labeling "real-world" objects, like persons, companies or locations.
 
+## Alternatives to spacy
+
+[LexNLP](https://lexpredict-lexnlp.readthedocs.io/en/latest/modules/extract/extract.html#pattern-based-extraction-methods) entities:
+- acts, e.g., “section 1 of the Advancing Hope Act, 1986”
+- amounts, e.g., “ten pounds” or “5.8 megawatts”
+- citations, e.g., “10 U.S. 100” or “1998 S. Ct. 1”
+- companies, e.g., “Lexpredict LLC”
+- conditions, e.g., “subject to …” or “unless and until …”
+- constraints, e.g., “no more than” or “
+- copyright, e.g., “(C) Copyright 2000 Acme”
+- courts, e.g., “Supreme Court of New York”
+- CUSIP, e.g., “392690QT3”
+- dates, e.g., “June 1, 2017” or “2018-01-01”
+- definitions, e.g., “Term shall mean …”
+- distances, e.g., “fifteen miles”
+- durations, e.g., “ten years” or “thirty days”
+- geographic and geopolitical entities, e.g., “New York” or “Norway”
+- money and currency usages, e.g., “$5” or “10 Euro”
+- percents and rates, e.g., “10%” or “50 bps”
+- PII, e.g., “212-212-2121” or “999-999-9999”
+- ratios, e.g.,” 3:1” or “four to three”
+- regulations, e.g., “32 CFR 170”
+- trademarks, e.g., “MyApp (TM)”
+- URLs, e.g., “http://acme.com/”
+
+Stanford NER entities:
+- Location, Person, Organization, Money, Percent, Date, Time
+
+NLTK
+- NLTK maximum entropy classifier
+
 
 ```python
 doc = nlp("Larry Page founded Google in the US in early 1990.")
@@ -212,6 +409,41 @@ doc = nlp("Larry Page founded Google in the US in early 1990.")
      ('Google', 'ORG'),
      ('US', 'GPE'),
      ('early 1990', 'DATE')]
+
+
+
+
+```python
+import lexnlp.extract.en as lexnlp
+import nltk
+```
+
+
+```python
+text = "There are ten cows in the 2 acre pasture."
+print(list(lexnlp.amounts.get_amounts(text)))
+```
+
+    [10, 2.0]
+
+
+
+```python
+import lexnlp.extract.en.acts
+text = "test section 12 of the VERY Important Act of 1954."
+lexnlp.extract.en.acts.get_act_list(text)
+```
+
+
+
+
+    [{'location_start': 5,
+      'location_end': 49,
+      'act_name': 'VERY Important Act',
+      'section': '12',
+      'year': '1954',
+      'ambiguous': False,
+      'value': 'section 12 of the VERY Important Act of 1954'}]
 
 
 
@@ -362,6 +594,71 @@ doc[2].vector
           dtype=float32)
 
 
+
+
+```python
+# can also be done using sklearn's linear kernel (equivilant to cosine similarity)
+
+```
+
+# Unigram, bigrams, trigrams
+
+- Unigram = one word, eg the, and, of, hotel
+- Bigrams = two consecutive words, eg the hotel, in seattle, the city
+- Trigrams = three consecutive words, eg easy access to, high speed internet, the heart of
+
+Credits: https://towardsdatascience.com/building-a-content-based-recommender-system-for-hotels-in-seattle-d724f0a32070
+
+## Get all unigrams
+
+
+```python
+def get_top_n_words(corpus, n=None):
+    vec = CountVectorizer(stop_words='english').fit(corpus)
+    bag_of_words = vec.transform(corpus)
+    sum_words = bag_of_words.sum(axis=0) 
+    words_freq = [(word, sum_words[0, idx]) for word, idx in vec.vocabulary_.items()]
+    words_freq =sorted(words_freq, key = lambda x: x[1], reverse=True)
+    return words_freq[:n]
+common_words = get_top_n_words(df['desc'], 20)
+df2 = pd.DataFrame(common_words, columns = ['desc' , 'count'])
+df2.groupby('desc').sum()['count'].sort_values().iplot(kind='barh', yTitle='Count', linecolor='black', title='Top 20 words in hotel description after removing stop words')
+
+```
+
+## Get all bigrams
+
+
+```python
+def get_top_n_bigram(corpus, n=None):
+    vec = CountVectorizer(ngram_range=(2, 2), stop_words='english').fit(corpus)
+    bag_of_words = vec.transform(corpus)
+    sum_words = bag_of_words.sum(axis=0) 
+    words_freq = [(word, sum_words[0, idx]) for word, idx in vec.vocabulary_.items()]
+    words_freq =sorted(words_freq, key = lambda x: x[1], reverse=True)
+    return words_freq[:n]
+common_words = get_top_n_bigram(df['desc'], 20)
+df4 = pd.DataFrame(common_words, columns = ['desc' , 'count'])
+df4.groupby('desc').sum()['count'].sort_values(ascending=False).iplot(kind='bar', yTitle='Count', linecolor='black', title='Top 20 bigrams in hotel description After removing stop words')
+
+```
+
+## Get all trigrams
+
+
+```python
+def get_top_n_trigram(corpus, n=None):
+    vec = CountVectorizer(ngram_range=(3, 3), stop_words='english').fit(corpus)
+    bag_of_words = vec.transform(corpus)
+    sum_words = bag_of_words.sum(axis=0) 
+    words_freq = [(word, sum_words[0, idx]) for word, idx in vec.vocabulary_.items()]
+    words_freq =sorted(words_freq, key = lambda x: x[1], reverse=True)
+    return words_freq[:n]
+common_words = get_top_n_trigram(df['desc'], 20)
+df6 = pd.DataFrame(common_words, columns = ['desc' , 'count'])
+df6.groupby('desc').sum()['count'].sort_values(ascending=False).iplot(kind='bar', yTitle='Count', linecolor='black', title='Top 20 trigrams in hotel description after removing stop words')
+
+```
 
 # Visualization
 
